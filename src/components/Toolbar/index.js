@@ -16,7 +16,7 @@ import { TOOL_ITEMS } from "../../constants";
 import boardContext from "../../store/board-context";
 
 const Toolbar = () => {
-  const { activeToolItem, handleToolItemClick } = useContext(boardContext);
+  const { activeToolItem, changeToolHandler } = useContext(boardContext);
 
   return (
     <div className={classes.container}>
@@ -24,7 +24,7 @@ const Toolbar = () => {
         className={cx(classes.toolItem, {
           [classes.active]: activeToolItem === TOOL_ITEMS.BRUSH,
         })}
-        onClick={() => handleToolItemClick(TOOL_ITEMS.BRUSH)}
+        onClick={() => changeToolHandler(TOOL_ITEMS.BRUSH)}
       >
         <FaPaintBrush />
       </div>
@@ -32,7 +32,7 @@ const Toolbar = () => {
         className={cx(classes.toolItem, {
           [classes.active]: activeToolItem === TOOL_ITEMS.LINE,
         })}
-        onClick={() => handleToolItemClick(TOOL_ITEMS.LINE)}
+        onClick={() => changeToolHandler(TOOL_ITEMS.LINE)}
       >
         <FaSlash />
       </div>
@@ -40,7 +40,7 @@ const Toolbar = () => {
         className={cx(classes.toolItem, {
           [classes.active]: activeToolItem === TOOL_ITEMS.RECTANGLE,
         })}
-        onClick={() => handleToolItemClick(TOOL_ITEMS.RECTANGLE)}
+        onClick={() => changeToolHandler(TOOL_ITEMS.RECTANGLE)}
       >
         <LuRectangleHorizontal />
       </div>
@@ -48,7 +48,7 @@ const Toolbar = () => {
         className={cx(classes.toolItem, {
           [classes.active]: activeToolItem === TOOL_ITEMS.CIRCLE,
         })}
-        onClick={() => handleToolItemClick(TOOL_ITEMS.CIRCLE)}
+        onClick={() => changeToolHandler(TOOL_ITEMS.CIRCLE)}
       >
         <FaRegCircle />
       </div>
@@ -56,7 +56,7 @@ const Toolbar = () => {
         className={cx(classes.toolItem, {
           [classes.active]: activeToolItem === TOOL_ITEMS.ARROW,
         })}
-        onClick={() => handleToolItemClick(TOOL_ITEMS.ARROW)}
+        onClick={() => changeToolHandler(TOOL_ITEMS.ARROW)}
       >
         <FaArrowRight />
       </div>
@@ -64,7 +64,7 @@ const Toolbar = () => {
         className={cx(classes.toolItem, {
           [classes.active]: activeToolItem === TOOL_ITEMS.ERASER,
         })}
-        onClick={() => handleToolItemClick(TOOL_ITEMS.ERASER)}
+        onClick={() => changeToolHandler(TOOL_ITEMS.ERASER)}
       >
         <FaEraser />
       </div>
@@ -72,7 +72,7 @@ const Toolbar = () => {
         className={cx(classes.toolItem, {
           [classes.active]: activeToolItem === TOOL_ITEMS.TEXT,
         })}
-        onClick={() => handleToolItemClick(TOOL_ITEMS.TEXT)}
+        onClick={() => changeToolHandler(TOOL_ITEMS.TEXT)}
       >
         <FaFont />
       </div>

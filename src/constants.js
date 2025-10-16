@@ -19,3 +19,10 @@ export const BOARD_ACTIONS = {
   UNDO: "UNDO",
   REDO: "REDO",
 }
+
+export const TOOL_ACTION_TYPES = {
+  NONE: "NONE",
+  DRAWING: "DRAWING",
+  ERASING: "ERASING",
+  WRITING: "WRITING",
+};

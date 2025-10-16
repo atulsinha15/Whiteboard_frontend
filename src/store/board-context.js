@@ -1,10 +1,13 @@
-import { createContext } from 'react'
+import { createContext } from "react";
 
 const boardContext = createContext({
   activeToolItem: "",
   elements: [],
-  handleToolItemClick: () => {},
-  boardMouseDownHandler:()=>{},
+  toolActionType: "",
+  changeToolHandler: () => {},
+  boardMouseDownHandler: () => {},
+  boardMouseMoveHandler: () => {},
+  boardMouseUpHandler: () => {},
 });
 
-export default boardContext
+export default boardContext;
