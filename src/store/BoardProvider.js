@@ -2,6 +2,7 @@ import { useReducer } from "react";
 import boardContext from "./board-context";
 import { TOOL_ITEMS, BOARD_ACTIONS, TOOL_ACTION_TYPES } from "../constants";
 import rough from "roughjs/bin/rough";
+import { createElement } from "../utils/elements";
 const gen = rough.generator();
 
 const boardReducer = (state, action) => {
@@ -15,14 +16,14 @@ const boardReducer = (state, action) => {
 
     case BOARD_ACTIONS.DRAW_DOWN: {
       const { clientX, clientY } = action.payload;
-      const newElement = {
-        id: state.elements.length,
-        x1: clientX,
-        y1: clientY,
-        x2: clientX,
-        y2: clientY,
-        roughEle: gen.line(clientX, clientY, clientX, clientY),
-      };
+      const newElement = createElement(
+        state.elements.length,
+        clientX,
+        clientY,
+        clientX,
+        clientY,
+        { type: state.activeToolItem }
+      );
       const prevElements = state.elements;
       return {
         ...state,
@@ -34,18 +35,16 @@ const boardReducer = (state, action) => {
     case BOARD_ACTIONS.DRAW_MOVE: {
       const { clientX, clientY } = action.payload;
       const index = state.elements.length - 1;
-      const newElement = [...state.elements];
-      newElement[index].x2 = clientX;
-      newElement[index].y2 = clientY;
-      newElement[index].roughEle = gen.line(
-        newElement[index].x1,
-        newElement[index].y1,
-        clientX,
-        clientY
-      );
+      const newElements = [...state.elements];
+      const { x1, y1 } = newElements[index];
+      const newElement = createElement(index, x1, y1, clientX, clientY, {
+        type: state.activeToolItem,
+      });
+      newElements[index]=newElement;
+      
       return {
         ...state,
-        elements: newElement,
+        elements: newElements,
       };
     }
 
@@ -53,7 +52,6 @@ const boardReducer = (state, action) => {
       return {
         ...state,
         toolActionType: TOOL_ACTION_TYPES.NONE,
-       
       };
     }
 
@@ -107,10 +105,8 @@ const BoardProvider = ({ children }) => {
   };
 
   const boardMouseUpHandler = () => {
-  
     dispatchBoardAction({
       type: BOARD_ACTIONS.DRAW_UP,
-      
     });
   };
 
