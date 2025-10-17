@@ -1,32 +1,35 @@
+import { TOOL_ITEMS } from "../constants";
+import rough from "roughjs/bin/rough";
 
-import { TOOL_ITEMS } from '../constants';
-import rough from "roughjs/bin/rough"
+const gen = rough.generator();
 
-const gen=rough.generator();
+export const createElement = (id, x1, y1, x2, y2, { type }) => {
+  const element = {
+    id,
+    x1,
+    y1,
+    x2,
+    y2,
+  };
+  const options = {
+    seed: id + 1,
+  };
+  switch (type) {
+    case TOOL_ITEMS.LINE:
+      element.roughEle = gen.line(x1, y1, x2, y2, options);
+      return element;
 
-export const createElement  = (id,x1,y1,x2,y2,{type}) => {
+    case TOOL_ITEMS.RECTANGLE:
+      element.roughEle = gen.rectangle(x1, y1, x2 - x1, y2 - y1, options);
+      return element;
+    case TOOL_ITEMS.CIRCLE:
+        const cx=(x1+x2)/2;
+        const cy=(y1+y2)/2;
 
-    const element={
-        id,
-        x1,
-        y1,
-        x2,
-        y2,
-    }
-    const options={
-        seed:id+1,
-    }
-    switch (type) {
-        case TOOL_ITEMS.LINE:
-            element.roughEle=gen.line(x1,y1,x2,y2,options);
-            return element;
-        
-        case TOOL_ITEMS.RECTANGLE:
-            element.roughEle=gen.rectangle(x1,y1,x2-x1,y2-y1,options);
-            return element;
+      element.roughEle = gen.ellipse(cx, cy, x2 - x1, y2 - y1, options);
+      return element;
 
-        default:
-            throw new Error("Type not matched");
-    }
-  
-}
+    default:
+      throw new Error("Type not matched");
+  }
+};
