@@ -1,10 +1,8 @@
 import { useReducer } from "react";
 import boardContext from "./board-context";
 import { TOOL_ITEMS, BOARD_ACTIONS, TOOL_ACTION_TYPES } from "../constants";
-import rough from "roughjs/bin/rough";
 import { createElement } from "../utils/elements";
-const gen = rough.generator();
-
+ 
 const boardReducer = (state, action) => {
   switch (action.type) {
     case BOARD_ACTIONS.CHANGE_TOOL: {
