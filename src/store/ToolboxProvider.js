@@ -19,13 +19,13 @@ function toolboxReducer(state, action) {
       newState[action.payload.tool].size = action.payload.size;
       return newState;
     }
+    
     default:
       return state;
   }
 }
 
 const initialToolboxState = {
-  
   [TOOL_ITEMS.LINE]: {
     stroke: COLORS.BLACK,
     size: 1,
@@ -44,7 +44,6 @@ const initialToolboxState = {
     stroke: COLORS.BLACK,
     size: 1,
   },
-  
 };
 
 const ToolboxProvider = ({ children }) => {
@@ -63,10 +62,33 @@ const ToolboxProvider = ({ children }) => {
     });
   };
 
+  const changeFillHandler = (tool, fill) => {
+    dispatchToolboxAction({
+      type: TOOLBOX_ACTIONS.CHANGE_FILL,
+      payload: {
+        tool,
+        fill,
+      },
+    });
+  };
+
+   const changeSizeHandler = (tool, size) => {
+    dispatchToolboxAction({
+      type: TOOLBOX_ACTIONS.CHANGE_SIZE,
+      payload: {
+        tool,
+        size,
+      },
+    });
+  };
+
 
   const toolboxContextValue = {
     toolboxState,
     changeStroke: changeStrokeHandler,
+    changeFill: changeFillHandler,
+        changeSize: changeSizeHandler,
+
   };
 
   return (
