@@ -1,10 +1,17 @@
 import { ARROW_LENGTH, TOOL_ITEMS } from "../constants";
 import rough from "roughjs/bin/rough";
-import { getArrowHeadsCoordinates,isPointCloseToLine } from "./maths";
-import { getStroke } from 'perfect-freehand'
+import { getArrowHeadsCoordinates, isPointCloseToLine } from "./maths";
+import { getStroke } from "perfect-freehand";
 const gen = rough.generator();
 
-export const createElement = (id, x1, y1, x2, y2, { type,stroke,fill,size }) => {
+export const createElement = (
+  id,
+  x1,
+  y1,
+  x2,
+  y2,
+  { type, stroke, fill, size }
+) => {
   const element = {
     id,
     x1,
@@ -21,16 +28,16 @@ export const createElement = (id, x1, y1, x2, y2, { type,stroke,fill,size }) => 
     fillStyle: "solid",
   };
 
-  if(stroke){
-    options.stroke=stroke;
+  if (stroke) {
+    options.stroke = stroke;
   }
-  if(fill){
-    options.fill=fill;
+  if (fill) {
+    options.fill = fill;
   }
   if (size) {
     options.strokeWidth = size;
   }
-    switch (type) {
+  switch (type) {
     case TOOL_ITEMS.BRUSH: {
       const brushElement = {
         id,
@@ -49,22 +56,31 @@ export const createElement = (id, x1, y1, x2, y2, { type,stroke,fill,size }) => 
     case TOOL_ITEMS.RECTANGLE:
       element.roughEle = gen.rectangle(x1, y1, x2 - x1, y2 - y1, options);
       return element;
-    case TOOL_ITEMS.CIRCLE: 
+    case TOOL_ITEMS.CIRCLE:
       const cx = (x1 + x2) / 2;
       const cy = (y1 + y2) / 2;
 
       element.roughEle = gen.ellipse(cx, cy, x2 - x1, y2 - y1, options);
       return element;
     case TOOL_ITEMS.ARROW:
-        const {x3,y3,x4,y4}=getArrowHeadsCoordinates(x1,y1,x2,y2,ARROW_LENGTH);
-        const points=[
-            [x1,y1],
-            [x2,y2],
-            [x3,y3],
-            [x2,y2],
-            [x4,y4]
-        ]
+      const { x3, y3, x4, y4 } = getArrowHeadsCoordinates(
+        x1,
+        y1,
+        x2,
+        y2,
+        ARROW_LENGTH
+      );
+      const points = [
+        [x1, y1],
+        [x2, y2],
+        [x3, y3],
+        [x2, y2],
+        [x4, y4],
+      ];
       element.roughEle = gen.linearPath(points, options);
+      return element;
+    case TOOL_ITEMS.TEXT:
+      element.text = "";
       return element;
     default:
       throw new Error("Type not matched");
@@ -104,7 +120,7 @@ export const isPointNearElement = (element, pointX, pointY) => {
       );
     case TOOL_ITEMS.BRUSH:
       return context.isPointInPath(element.path, pointX, pointY);
-   
+
     default:
       throw new Error("Type not recognized");
   }
